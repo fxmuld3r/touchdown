@@ -1,0 +1,125 @@
+<!DOCTYPE html>
+<ui:composition template="/template/layout.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">TouchDown</ui:define>
+
+	<ui:define name="corpo">
+
+		<h:form id="frmConsultarPerfisUsuarios">
+
+			<p:fieldset legend="Consulta de Perfis de Usuários" style="margin-bottom:20px">
+				<h:panelGrid columns="1" cellpadding="5" id="painelPerfis">
+
+					Informe as opções abaixo para a consulta:
+
+					<p:panelGrid>
+ 						<p:row>
+							<p:column>
+								<p:outputLabel id="lblFiltroNomeUsuario" for="txtFiltroNomeUsuario">Nome do Usuário</p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText value="#{perfilUsuarioMB.filtro.usuario.nome}" id="txtFiltroNomeUsuario"
+									maxlength="60" size="60"></p:inputText>
+								<p:graphicImage url="../../resources/images/question-icon.png"
+									width="20px" height="20px" id="imgNomeUsuario" />
+								<p:tooltip id="toolTipTrackNomeUsuario" for="imgNomeUsuario"
+									value="Primeiro nome ou nome completo do usuário"
+									trackMouse="true" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<p:outputLabel id="lblFiltroNomePerfil" for="txtFiltroNomePerfil">Nome do Perfil</p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText value="#{perfilUsuarioMB.filtro.perfil.nome}" id="txtFiltroNomePerfil"
+									maxlength="60" size="60"></p:inputText>
+								<p:graphicImage url="../../resources/images/question-icon.png"
+									width="20px" height="20px" id="imgNomePerfil" />
+								<p:tooltip id="toolTipTrackNomePerfil" for="imgNomePerfil"
+									value="Primeiro nome ou nome completo do perfil"
+									trackMouse="true" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<p:outputLabel id="lblFiltroAtivo" for="selFiltroAtivo">Somente ativos</p:outputLabel>
+							</p:column>
+							<p:column>
+								<h:selectBooleanCheckbox id="selFiltroAtivo"
+									value="#{perfilUsuarioMB.filtro.ativo}" />
+								<p:graphicImage url="../../resources/images/question-icon.png"
+									width="20px" height="20px" id="imgAtivo" />
+								<p:tooltip id="toolTipTrackAtivo" for="imgAtivo"
+									value="Filtra somente perfis ativos para usuários" trackMouse="true" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column colspan="2">
+								<h:commandButton value="Consultar" />
+
+								<p:commandButton value="Limpar" update="painelPerfis"
+									process="@this" actionListener="#{perfilUsuarioMB.limpar}" />
+
+								<p:commandButton value="Incluir" type="button" onclick="reset()" />
+
+							</p:column>
+						</p:row>
+						
+					</p:panelGrid>
+
+					<p:separator />
+
+					<p:dataTable value="#{perfilUsuarioMB.listarPerfisUsuarios}" var="perfilUsuario"
+						border="1" cellspacing="0" cellpadding="2" id="tabelaPerfisUsuarios"
+						paginator="true" paginatorAlwaysVisible="true" rows="10"
+						paginatorPosition="bottom"
+						emptyMessage="Nenhum registro encontrado"
+						currentPageReportTemplate="{totalRecords} resultados"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} "
+						rowsPerPageTemplate="10,25,50">
+
+						<f:facet name="header">
+							<h:outputText value="Lista de registros encontrados" />
+						</f:facet>
+
+						<p:column headerText="ID" width="10%"
+							style="text-align:right">
+							<h:outputText value="#{perfilUsuario.id}" />
+						</p:column>
+
+						<p:column headerText="Nome">
+							<h:outputText value="#{perfilUsuario.usuario.nome}" />
+						</p:column>
+
+						<p:column headerText="Descrição">
+							<h:outputText value="#{perfilUsuario.perfil.nome}">
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="Ativo" width="10%" style="text-align:center">
+							<h:selectBooleanCheckbox value="#{perfilUsuario.ativo}" disabled="true" />
+						</p:column>
+						
+						<p:column headerText="Ativo" width="10%" style="text-align:center">
+							<h:commandButton value="Consulta Perfis" action="consultarperfis" />
+						</p:column>
+
+						
+					</p:dataTable>
+
+				</h:panelGrid>
+			</p:fieldset>
+			
+			<h:commandButton value="Consulta Perfis" action="consultarperfis" />
+			<h:commandButton value="Consulta Usuários" action="consultarusuarios" />
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

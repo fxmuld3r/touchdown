@@ -1,0 +1,88 @@
+<!DOCTYPE html>
+<ui:composition template="/template/layout.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">TouchDown</ui:define>
+
+	<ui:define name="corpo">
+
+		<p:messages autoUpdate="true" showSummary="true" showDetail="false"
+			errorStyle="color: red" infoStyle="color: green"
+			warnStyle="color: orange" fatalStyle="color: gray" />
+
+		<h:form id="frmControleUsuarios">
+
+			<p:fieldset legend="Controle de Usuários" style="margin-bottom:20px">
+				<h:panelGrid columns="1" cellpadding="5" id="painelUsuarios">
+
+					Os campos assinalados com * (asterisco) são de preenchimento obrigatório.
+
+					<p:panelGrid>
+
+						<p:row>
+							<p:column>
+							<!-- 
+								<h:inputHidden value="#{usuarioMB.usuario.id}" />
+								 -->
+								<p:outputLabel id="lblCPF" for="txtCPF">CPF</p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputMask id="txtCPF" value="#{usuarioMB.usuario.cpf}"
+									label="CPF" maxlength="14" size="14" mask="?999.999.999-99"
+									converter="CPFConverter" required="true">
+									<f:validator validatorId="validator.CPFValidator" tabindex="0" />
+								</p:inputMask>
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<p:outputLabel id="lblNome" for="txtNome">Nome</p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText id="txtNome" label="Nome"
+									value="#{usuarioMB.usuario.nome}" maxlength="60" size="60" style="text-transform:uppercase"
+									required="true" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<p:outputLabel id="lblAtivo" for="chkAtivo">Ativo</p:outputLabel>
+							</p:column>
+							<p:column>
+								<h:selectBooleanCheckbox id="chkAtivo"
+									value="#{usuarioMB.usuario.ativo}" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column colspan="2">
+								<h:commandButton id="btnSalvar" value="Salvar"
+									action="#{usuarioMB.salvar}">
+									<f:param name="parametro2" value="123456" />
+								</h:commandButton>
+								<p:button id="btnLimpar" value="Limpar" update="painelUsuarios"
+									process="@this" actionListener="#{usuarioMB.limpar}" />
+								<p:button id="btnVoltar" value="Voltar"
+									outcome="consultarusuarios?faces-redirect=true" />
+
+<h:outputLink value="consultarusuarios.xhtml">
+    <f:param name="parametro" value="10" />
+    <h:outputText value="parametro" />
+</h:outputLink>
+
+
+							</p:column>
+
+						</p:row>
+					</p:panelGrid>
+
+				</h:panelGrid>
+			</p:fieldset>
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

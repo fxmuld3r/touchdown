@@ -1,0 +1,57 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title>Argentum Web</title>
+</h:head>
+
+
+<h:body>
+
+	<h:form>
+		<p:menubar style="margin-top: -20px; margin-bottom: 20px">
+			<p:submenu label="Cadastros">
+				<p:menuitem value="Usuáios"
+					action="/consultas/acesso/ConsultaUsuarios?faces-redirect=true" />
+				<p:menuitem value="Senhas"
+					action="/consultas/acesso/ConsultaSenhas?faces-redirect=true" />
+				<p:menuitem value="Perfis"
+					action="/consultas/acesso/ConsultaPerfis?faces-redirect=true" />
+			</p:submenu>
+			<p:submenu label="Consultas">
+				<p:menuitem value="Usuáios"
+					action="/consultas/acesso/ConsultaUsuarios?faces-redirect=true" />
+				<p:menuitem value="Senhas"
+					action="/consultas/acesso/ConsultaSenhas?faces-redirect=true" />
+				<p:menuitem value="Perfis"
+					action="/consultas/acesso/ConsultaPerfis?faces-redirect=true" />
+				<p:menuitem value="Transações"
+					action="/consultas/acesso/ConsultaTransacoes?faces-redirect=true" />
+			</p:submenu>
+			<p:submenu label="Sistema">
+				<p:menuitem value="Sair" />
+			</p:submenu>
+		</p:menubar>
+	</h:form>
+
+	<br />
+
+	<p:dataTable id="lista" var="usuario"
+		value="#{usuarioMB.listarUsuarios}" border="1" cellspacing="0"
+		cellpadding="2" paginator="true" rows="2" paginatorPosition="bottom">
+		<p:column>
+			<h:outputText value="#{usuario.id}" />
+		</p:column>
+		<p:column>
+			<h:outputText value="#{usuario.nome}" />
+		</p:column>
+	</p:dataTable>
+
+
+
+</h:body>
+
+</html>

@@ -1,0 +1,110 @@
+<!DOCTYPE html>
+<ui:composition template="/template/layout.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">TouchDown</ui:define>
+
+	<ui:define name="corpo">
+
+		<h:form id="frmConsultarTransacoes">
+
+			<p:fieldset legend="Consulta de Transações" style="margin-bottom:20px">
+				<h:panelGrid columns="1" cellpadding="5" id="painelTransacoes">
+
+					Informe as opções abaixo para a consulta:
+
+					<p:panelGrid>
+						<p:row>
+							<p:column>
+								<p:outputLabel id="lblFiltroNome" for="txtFiltroNome">Nome</p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText value="#{transacaoMB.filtro.nome}"
+									id="txtFiltroNome" maxlength="60" size="60"></p:inputText>
+								<p:graphicImage url="../../resources/images/question-icon.png"
+									width="20px" height="20px" id="imgNome" />
+								<p:tooltip id="toolTipTrackNome" for="imgNome"
+									value="Primeiro nome ou nome completo" trackMouse="true" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<p:outputLabel id="lblFiltroAtivo" for="selFiltroAtivo">Somente ativos</p:outputLabel>
+							</p:column>
+							<p:column>
+								<h:selectBooleanCheckbox id="selFiltroAtivo"
+									value="#{transacaoMB.filtro.ativo}" />
+								<p:graphicImage url="../../resources/images/question-icon.png"
+									width="20px" height="20px" id="imgAtivo" />
+								<p:tooltip id="toolTipTrackAtivo" for="imgAtivo"
+									value="Filtra somente transações ativas" trackMouse="true" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column colspan="2">
+								<h:commandButton value="Consultar" />
+
+								<p:commandButton value="Limpar" update="painelTransacoes"
+									process="@this" actionListener="#{transacaoMB.limpar}" />
+
+								<p:commandButton value="Incluir" type="button" onclick="reset()" />
+
+							</p:column>
+						</p:row>
+					</p:panelGrid>
+
+					<p:separator />
+
+					<p:dataTable value="#{transacaoMB.listarTransacoes}" var="transacao" border="1"
+						cellspacing="0" cellpadding="2" id="tabelaTransacoes" paginator="true"
+						paginatorAlwaysVisible="true" rows="10" paginatorPosition="bottom"
+						emptyMessage="Nenhum registro encontrado"
+						currentPageReportTemplate="{totalRecords} resultados"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} "
+						rowsPerPageTemplate="10,25,50">
+
+						<f:facet name="header">
+							<h:outputText value="Lista de registros encontrados" />
+						</f:facet>
+
+						<p:column headerText="ID" width="10%"
+							style="text-align:right">
+							<h:outputText value="#{transacao.id}" />
+						</p:column>
+
+						<p:column headerText="Nome Transação">
+							<h:outputText value="#{transacao.nome}" />
+						</p:column>
+
+						<p:column headerText="Descrição">
+							<h:outputText value="#{transacao.descricao}" />
+						</p:column>
+
+						<p:column headerText="Perfil">
+							<h:outputText value="#{transacao.perfil.nome}" />
+						</p:column>
+
+						<p:column headerText="Ativo" width="10%" style="text-align:center">
+							<h:selectBooleanCheckbox value="#{transacao.ativo}" disabled="true" />
+						</p:column>
+
+						<p:column headerText="Opções" width="10%" style="text-align:center">
+								<p:graphicImage url="../../resources/images/question-icon.png"
+									width="20px" height="20px" id="imgExcluir" />
+								<p:tooltip id="toolTipTrackExcluir" for="imgExcluir"
+									value="Excluir" trackMouse="true" />
+						</p:column>
+
+					</p:dataTable>
+
+				</h:panelGrid>
+			</p:fieldset>
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

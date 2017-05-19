@@ -1,0 +1,128 @@
+<!DOCTYPE html>
+<ui:composition template="/template/layout.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">TouchDown</ui:define>
+
+	<ui:define name="corpo">
+
+		<h:form id="frmConsultarSenhas">
+
+			<p:fieldset legend="Consulta de Senhas" style="margin-bottom:20px">
+				<h:panelGrid columns="1" cellpadding="5" id="painelSenhas">
+
+					Informe uma das opções abaixo para a consulta:
+
+					<p:panelGrid>
+						<p:row>
+							<p:column>
+								<p:outputLabel id="lblFiltroCPF" for="txtFiltroCPF">CPF</p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputMask value="#{senhaMB.filtro.usuario.cpf}" id="txtFiltroCPF"
+									maxlength="14" size="14" mask="?999.999.999-99"
+									converter="CPFConverter">
+								</p:inputMask>
+
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<p:outputLabel id="lblFiltroNome" for="txtFiltroNome">Nome usuário</p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText value="#{senhaMB.filtro.usuario.nome}"
+									id="txtFiltroNome" maxlength="60" size="60"></p:inputText>
+								<p:graphicImage url="../../resources/images/question-icon.png"
+									width="20px" height="20px" id="imgNome" />
+								<p:tooltip id="toolTipTrackNome" for="imgNome"
+									value="Primeiro nome ou nome completo" trackMouse="true" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<p:outputLabel id="lblFiltroAtivo" for="selFiltroAtivo">Somente ativos</p:outputLabel>
+							</p:column>
+							<p:column>
+								<h:selectBooleanCheckbox id="selFiltroAtivo"
+									value="#{senhaMB.filtro.ativo}" />
+								<p:graphicImage url="../../resources/images/question-icon.png"
+									width="20px" height="20px" id="imgAtivo" />
+								<p:tooltip id="toolTipTrackAtivo" for="imgAtivo"
+									value="Filtra somente senhas ativas" trackMouse="true" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column colspan="2">
+								<h:commandButton value="Consultar" />
+
+								<p:commandButton value="Limpar" update="painelSenhas"
+									process="@this" actionListener="#{senhaMB.limpar}" />
+
+								<p:commandButton value="Incluir" type="button" onclick="reset()" />
+
+							</p:column>
+						</p:row>
+					</p:panelGrid>
+
+					<p:separator />
+
+					<p:dataTable value="#{senhaMB.listarSenhas}" var="senha" border="1"
+						cellspacing="0" cellpadding="2" id="tabelaSenhas" paginator="true"
+						paginatorAlwaysVisible="true" rows="10" paginatorPosition="bottom"
+						emptyMessage="Nenhum registro encontrado"
+						currentPageReportTemplate="{totalRecords} resultados"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} "
+						rowsPerPageTemplate="10,25,50">
+
+						<f:facet name="header">
+							<h:outputText value="Lista de registros encontrados" />
+						</f:facet>
+
+						<p:column headerText="ID" sortBy="#{senha.id}" width="10%"
+							style="text-align:right">
+							<h:outputText value="#{senha.id}" />
+						</p:column>
+
+						<p:column headerText="CPF" sortBy="#{senha.usuario.cpf}"
+							width="10%" style="text-align:right">
+							<h:outputText value="#{senha.usuario.cpf}">
+								<f:convertNumber pattern="#000.000.000-00" />
+							</h:outputText>
+						</p:column>
+
+						<p:column headerText="Nome Usuário" sortBy="#{senha.usuario.nome}">
+							<h:outputText value="#{senha.usuario.nome}" />
+						</p:column>
+
+						<p:column headerText="Data Atualização"
+							sortBy="#{senha.dataAtualizacao}" style="text-align:center">
+							<h:outputText value="#{senha.dataAtualizacao}">
+								<f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="Data Expiração"
+							sortBy="#{senha.dataExpiracao}" style="text-align:center">
+							<h:outputText value="#{senha.dataExpiracao}">
+								<f:convertDateTime pattern="dd/MM/yyyy" locale="pt_BR" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="Ativo" width="10%" style="text-align:center">
+							<h:selectBooleanCheckbox value="#{senha.ativo}" disabled="true" />
+						</p:column>
+
+
+
+					</p:dataTable>
+
+				</h:panelGrid>
+			</p:fieldset>
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

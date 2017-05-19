@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<ui:composition template="/template/layout.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">TouchDown</ui:define>
+
+	<ui:define name="corpo">
+
+		<p:messages id="mensagemTela" autoUpdate="true" showSummary="true"
+			showDetail="false" errorStyle="color: red" infoStyle="color: green"
+			warnStyle="color: orange" fatalStyle="color: gray" />
+
+		<h:form id="frmControleUsuarios">
+
+			<p:fieldset legend="Controle de Usuários" style="margin-bottom:20px">
+				<p:focus for="txtCPF" />
+				<h:panelGrid columns="1" cellpadding="5" id="pnlUsuarios">
+
+					Os campos assinalados com * (asterisco) são de preenchimento obrigatório.
+
+					<p:panelGrid>
+
+						<p:row>
+							<p:column>
+								<p:outputLabel id="lblCPF" for="txtCPF">CPF</p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputMask id="txtCPF" value="#{usuarioMB.usuario.cpf}"
+									label="CPF" maxlength="14" size="14" mask="?999.999.999-99"
+									placeHolder="" placeholder="" converter="CPFConverter"
+									required="true">
+									<f:validator validatorId="validator.CPFValidator" />
+								</p:inputMask>
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<p:outputLabel id="lblNome" for="txtNome">Nome</p:outputLabel>
+							</p:column>
+							<p:column>
+								<p:inputText id="txtNome" label="Nome"
+									value="#{usuarioMB.usuario.nome}" maxlength="60" size="60"
+									style="text-transform:uppercase" required="true" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<p:outputLabel id="lblAtivo" for="chkAtivo">Ativo</p:outputLabel>
+							</p:column>
+							<p:column>
+								<h:selectBooleanCheckbox id="chkAtivo"
+									value="#{usuarioMB.usuario.ativo}" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column colspan="2">
+								<p:button id="btnNovo" value="Novo" action="{usuarioMB.novo}"
+									icon="ui-icon-document" />
+								<p:button id="btnLimpar" value="Limpar" update="pnlUsuarios"
+									process="@this" actionListener="#{usuarioMB.limpar}"
+									icon="ui-icon-cancel" />
+								<p:button id="btnConsultar" value="Consultar Usuários"
+									outcome="consultarusuarios?faces-redirect=true"
+									icon="ui-icon-person" />
+								<p:commandButton id="btnSalvar" value="Salvar"
+									action="#{usuarioMB.salvar}" icon="ui-icon-disk" update="@form" />
+							</p:column>
+						</p:row>
+					</p:panelGrid>
+
+					<p:dataTable id="tblUsuarios" value="#{usuarioMB.listaUsuarios}"
+						var="usuario" border="1" cellspacing="0" cellpadding="2"
+						paginator="true" paginatorAlwaysVisible="true" rows="10"
+						paginatorPosition="bottom"
+						emptyMessage="Nenhum registro encontrado"
+						currentPageReportTemplate="{totalRecords} resultados"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} "
+						rowsPerPageTemplate="10,25,50"
+						rendered="#{!empty usuarioMB.listaUsuarios}">
+
+						<f:facet name="header">
+							<h:outputText value="Lista de registros encontrados" />
+						</f:facet>
+
+						<p:column headerText="CPF" width="10%" style="text-align:right">
+							<h:outputText value="#{usuario.cpf}">
+								<f:converter converterId="CPFConverter" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="Nome">
+							<h:outputText value="#{usuario.nome}" />
+						</p:column>
+						<p:column headerText="Ativo" width="10%" style="text-align:center">
+							<h:selectBooleanCheckbox value="#{usuario.ativo}" disabled="true" />
+						</p:column>
+						<p:column headerText="Ações" width="10%" style="text-align:center">
+
+							<p:commandLink process="@this" partialSubmit="true"
+								update=":frmControleUsuarios:pnlUsuarios">
+								<h:graphicImage library="images" name="edit.png" id="imgEditar"
+									width="20px" height="20px" />
+								<f:setPropertyActionListener value="#{usuario}"
+									target="#{usuarioMB.usuario}" />
+							</p:commandLink>
+							<p:tooltip id="tlpEditar" for="imgEditar"
+								value="#{messages['tooltip.editar']}" trackMouse="true" />
+
+							<p:commandLink actionListener="#{usuarioMB.excluir(usuario)}"
+								update="tblUsuarios" process="@this" partialSubmit="true">
+								<h:graphicImage library="images" name="trash.png"
+									id="imgExcluir" width="20px" height="20px" />
+								<f:setPropertyActionListener value="#{usuario}"
+									target="#{usuarioMB.usuario}" />
+								<p:confirm header="Confirmação"
+									message="Deseja excluir o registro?pnlUsuarios"
+									icon="ui-icon-alert" />
+							</p:commandLink>
+							<p:tooltip id="tlpExclur" for="imgExcluir"
+								value="#{messages['tooltip.excluir']}" trackMouse="true" />
+							<p:confirmDialog global="true">
+								<p:commandButton value="Sim" type="button"
+									styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+								<p:commandButton value="Não" type="button"
+									styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+							</p:confirmDialog>
+
+						</p:column>
+
+					</p:dataTable>
+
+				</h:panelGrid>
+			</p:fieldset>
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

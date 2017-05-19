@@ -1,0 +1,61 @@
+<!DOCTYPE html>
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:head>
+	<title><ui:insert name="titulo">Touchdown</ui:insert></title>
+	<h:outputStylesheet library="modelo" name="estilo.css" />
+</h:head>
+
+<h:body>
+
+	<header>
+		<h:graphicImage library="modelo" name="logo.png" height="50px" />
+	</header>
+	<br />
+	<br />
+	<br />
+	<h:form>
+		<p:menubar style="margin-top: -20px; margin-bottom: 20px">
+			<p:submenu label="Controles">
+				<p:menuitem value="Usuáios"
+					action="/consultas/acesso/manterusuarios?faces-redirect=true" />
+				<p:menuitem value="Senhas"
+					action="/consultas/acesso/consultarsenhas?faces-redirect=true" />
+				<p:menuitem value="Perfis"
+					action="/consultas/acesso/consultarperfis?faces-redirect=true" />
+				<p:menuitem value="Transações"
+					action="/consultas/acesso/consultartransacoes?faces-redirect=true" />
+				<p:menuitem value="Perfis de Usuários"
+					action="/consultas/acesso/consultarperfisusuarios?faces-redirect=true" />
+			</p:submenu>
+			<p:submenu label="Consultas">
+				<p:menuitem value="Usuáios"
+					action="/consultas/acesso/consultarusuarios?faces-redirect=true" />
+				<p:menuitem value="Senhas"
+					action="/consultas/acesso/consultarsenhas?faces-redirect=true" />
+				<p:menuitem value="Perfis"
+					action="/consultas/acesso/consultarperfis?faces-redirect=true" />
+				<p:menuitem value="Transações"
+					action="/consultas/acesso/consultartransacoes?faces-redirect=true" />
+				<p:menuitem value="Perfis de Usuários"
+					action="/consultas/acesso/consultarperfisusuarios?faces-redirect=true" />
+			</p:submenu>
+
+			<p:submenu label="Sistema">
+				<p:menuitem value="Sair" />
+			</p:submenu>
+		</p:menubar>
+	</h:form>
+	<br />
+	<div id="conteudo">
+		<ui:insert name="corpo" />
+	</div>
+	<br />
+	<footer> Touchdown </footer>
+
+</h:body>
+</html>

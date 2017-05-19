@@ -1,0 +1,18 @@
+<html xmlns:f="http://java.sun.com/jsf/core" xmlns:h="http://java.sun.com/jsf/html">
+
+<h:body>
+
+
+	<h:dataTable id="lista" var="usuario"
+		value="#{usuarioMB.listarUsuarios}">
+		<h:column>
+			<h:outputText value="#{usuario.id}" />
+		</h:column>
+		<h:column>
+			<h:outputText value="#{usuario.nome}" />
+		</h:column>
+	</h:dataTable>
+
+
+</h:body>
+</html>

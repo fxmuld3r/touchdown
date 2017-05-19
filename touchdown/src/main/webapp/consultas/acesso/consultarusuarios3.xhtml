@@ -1,0 +1,141 @@
+<!DOCTYPE html>
+<ui:composition template="/template/layout.xhtml"
+	xmlns:ui="http://java.sun.com/jsf/facelets"
+	xmlns:f="http://java.sun.com/jsf/core"
+	xmlns:h="http://java.sun.com/jsf/html"
+	xmlns:p="http://primefaces.org/ui">
+
+	<ui:define name="titulo">TouchDown</ui:define>
+
+	<ui:define name="corpo">
+
+		<p:messages autoUpdate="true" showSummary="true" showDetail="false"
+			errorStyle="color: red" infoStyle="color: green"
+			warnStyle="color: orange" fatalStyle="color: gray" />
+
+		<h:form id="frmConsultarUsuarios">
+
+			<p:fieldset legend="Consulta de Usuários" style="margin-bottom:20px">
+				<h:panelGrid columns="1" cellpadding="5" id="pnlUsuarios">
+
+					Informe os critérios de pesquisa abaixo:
+
+					<p:panelGrid>
+						<p:row>
+							<p:column>
+								<p:outputLabel id="lblCPF" for="txtCPF" value="CPF" />
+							</p:column>
+							<p:column>
+								<p:inputMask id="txtCPF" value="#{usuarioMB.filtro.cpf}"
+									maxlength="11" size="11" mask="?999.999.999-99"
+									converter="CPFConverter">
+									<f:validator validatorId="validator.CPFValidator" />
+								</p:inputMask>
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<p:outputLabel id="lblNome" for="txtNome" value="Nome" />
+							</p:column>
+							<p:column>
+								<p:inputText id="txtNome" value="#{usuarioMB.filtro.nome}"
+									maxlength="60" size="60" tabindex="0"
+									style="text-transform:uppercase"></p:inputText>
+								<p:graphicImage url="../../resources/images/question-icon.png"
+									width="20px" height="20px" id="imgNome" />
+								<p:tooltip id="toolTipTrackNome" for="imgNome"
+									value="#{messages['tooltip.filtronome']}" trackMouse="true" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column>
+								<p:outputLabel id="lblAtivo" for="optAtivo" value="Ativo(s)" />
+							</p:column>
+							<p:column>
+								<h:selectBooleanCheckbox id="optAtivo"
+									value="#{usuarioMB.filtro.ativo}" />
+								<p:graphicImage id="imgAtivo"
+									url="../../resources/images/question-icon.png" width="20px"
+									height="20px" />
+								<p:tooltip id="toolTipTrackAtivo" for="imgAtivo"
+									value="#{messages['tooltip.filtroativos']}" trackMouse="true" />
+							</p:column>
+						</p:row>
+						<p:row>
+							<p:column colspan="2">
+								<h:commandButton id="btnConsultar" value="Consultar" />
+								<p:commandButton id="btnLimpar" value="Limpar"
+									update="pnlUsuarios" process="@this"
+									actionListener="#{usuarioMB.limpar}" />
+								<h:commandButton id="btnNovo" value="Novo"
+									action="manterusuarios.xhtml" />
+							</p:column>
+						</p:row>
+					</p:panelGrid>
+
+					<p:separator rendered="#{!empty usuarioMB.listaUsuarios}" />
+
+					<p:dataTable id="tabUsuarios" value="#{usuarioMB.listaUsuarios}"
+						var="usuario" border="1" cellspacing="0" cellpadding="2"
+						paginator="true" paginatorAlwaysVisible="true" rows="10"
+						paginatorPosition="bottom"
+						emptyMessage="Nenhum registro encontrado"
+						currentPageReportTemplate="{totalRecords} resultados"
+						paginatorTemplate="{CurrentPageReport} {FirstPageLink} {PreviousPageLink} {PageLinks} {NextPageLink} {LastPageLink} {RowsPerPageDropdown} "
+						rowsPerPageTemplate="10,25,50"
+						rendered="#{!empty usuarioMB.listaUsuarios}">
+
+						<f:facet name="header">
+							<h:outputText value="Lista de registros encontrados" />
+						</f:facet>
+
+						<p:column headerText="CPF" width="10%" style="text-align:right">
+							<h:outputText value="#{usuario.cpf}">
+								<f:converter converterId="CPFConverter" />
+							</h:outputText>
+						</p:column>
+						<p:column headerText="Nome">
+							<h:outputText value="#{usuario.nome}" />
+						</p:column>
+						<p:column headerText="Ativo" width="10%" style="text-align:center">
+							<h:selectBooleanCheckbox value="#{usuario.ativo}" disabled="true" />
+						</p:column>
+						<p:column headerText="Ações" width="10%" style="text-align:center">
+						
+						
+							<p:button icon="ui-icon-pencil" title="Editar"
+								outcome="manterusuarios.xhtml">
+								<f:param name="parametro" value="#{usuario.id}" />
+							</p:button>
+
+
+							<p:growl id="msgExcluir" showDetail="true">
+								<p:commandButton id="remover" value="Remover"
+									actionListener="#{usuarioMB.excluir(usuario)}"
+									update="tabUsuarios">
+									<p:confirm header="Confirmação"
+										message="Deseja excluir o registro?" icon="ui-icon-alert" />
+								</p:commandButton>
+								<p:confirmDialog global="true">
+									<p:commandButton value="Sim" type="button"
+										styleClass="ui-confirmdialog-yes" icon="ui-icon-check" />
+									<p:commandButton value="Não" type="button"
+										styleClass="ui-confirmdialog-no" icon="ui-icon-close" />
+								</p:confirmDialog>
+							</p:growl>
+
+
+
+
+						</p:column>
+
+					</p:dataTable>
+
+				</h:panelGrid>
+			</p:fieldset>
+
+		</h:form>
+
+	</ui:define>
+
+</ui:composition>

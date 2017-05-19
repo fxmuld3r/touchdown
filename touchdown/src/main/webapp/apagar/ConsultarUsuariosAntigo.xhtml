@@ -1,0 +1,48 @@
+<html xmlns="http://www.w3.org/1999/xhtml"
+	xmlns:f="http://xmlns.jcp.org/jsf/core"
+	xmlns:h="http://xmlns.jcp.org/jsf/html"
+	xmlns:ui="http://xmlns.jcp.org/jsf/facelets"
+	xmlns:p="http://primefaces.org/ui">
+
+<h:body>
+
+	<h:form>
+		<p:menubar style="margin-top: -20px; margin-bottom: 20px">
+			<p:submenu label="Cadastros">
+				<p:menuitem value="Usuáios"
+					action="/consultas/acesso/ConsultaUsuarios?faces-redirect=true" />
+				<p:menuitem value="Senhas"
+					action="/consultas/acesso/ConsultaSenhas?faces-redirect=true" />
+				<p:menuitem value="Perfis"
+					action="/consultas/acesso/ConsultaPerfis?faces-redirect=true" />
+			</p:submenu>
+			<p:submenu label="Consultas">
+				<p:menuitem value="Usuáios"
+					action="/consultas/acesso/ConsultaUsuarios?faces-redirect=true" />
+				<p:menuitem value="Senhas"
+					action="/consultas/acesso/ConsultaSenhas?faces-redirect=true" />
+				<p:menuitem value="Perfis"
+					action="/consultas/acesso/ConsultaPerfis?faces-redirect=true" />
+				<p:menuitem value="Transações"
+					action="/consultas/acesso/ConsultaTransacoes?faces-redirect=true" />
+			</p:submenu>
+			<p:submenu label="Sistema">
+				<p:menuitem value="Sair" />
+			</p:submenu>
+		</p:menubar>
+	</h:form>
+
+
+
+	<h:dataTable id="lista" var="usuario"
+		value="#{usuarioMB.listarUsuarios}">
+		<h:column>
+			<h:outputText value="#{usuario.id}" />
+		</h:column>
+		<h:column>
+			<h:outputText value="#{usuario.nome}" />
+		</h:column>
+	</h:dataTable>
+	
+</h:body>
+</html>

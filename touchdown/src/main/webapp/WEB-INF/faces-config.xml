@@ -1,0 +1,17 @@
+<faces-config xmlns="http://java.sun.com/xml/ns/javaee"
+	xmlns:xsi="http://www.w3.org/2001/XMLSchema-instance"
+	xsi:schemaLocation="http://java.sun.com/xml/ns/javaee http://java.sun.com/xml/ns/javaee/web-facesconfig_2_1.xsd"
+	version="2.1">
+
+		<application>
+			<message-bundle>
+				br.gov.serpro.touchdown.message.validation
+			</message-bundle>
+		</application>
+
+		<validator>
+		     <validator-id>validator.CPFValidator</validator-id>
+		     <validator-class>br.gov.serpro.touchdown.util.validator.CPFValidator</validator-class>
+		</validator>
+
+</faces-config>
